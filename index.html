@@ -6,5 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h1>회원가입</h1>
+    <form action="">
+      id:<input type="text" id="id" required /> pw:<input
+        type="password"
+        id="pw"
+        required
+      />
+      <input type="button" class="btn_join" value="회원가입" />
+    </form>
+    <h1>로그인</h1>
+    <form action="">
+      id:<input type="text" id="loginId" /> pw:<input
+        id="loginPw"
+        type="password"
+      /><button class="btn_login">로그인</button>
+    </form>
+  </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCEBZXDZNmfVzYs3M-qlm4RiBMD1udvn4k",
+      authDomain: "pracfb-154b3.firebaseapp.com",
+      projectId: "pracfb-154b3",
+      storageBucket: "pracfb-154b3.appspot.com",
+      messagingSenderId: "1074012574836",
+      appId: "1:1074012574836:web:536068c0f05ccd4924ed21",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+    } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+    const btn_join = document.querySelector(".btn_join");
+    const btn_login = document.querySelector(".btn_login");
+    const auth = getAuth();
+    btn_join.addEventListener("click", (e) => {
+      const email = document.querySelector("#id").value;
+      const password = document.querySelector("#pw").value;
+      e.preventDefault();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(error);
+          // ..
+        });
+    });
+    btn_login.addEventListener("click", (e) => {
+      const email = document.querySelector("#loginId").value;
+      const password = document.querySelector("#loginPw").value;
+      e.preventDefault();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          console.log(error);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    });
+  </script>
 </html>
